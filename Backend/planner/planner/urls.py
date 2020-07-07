@@ -20,4 +20,5 @@ from rest_framework_jwt.views import obtain_jwt_token
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('token',obtain_jwt_token),
+    path('event_manager/', include('event_manager.urls'))
 ]
