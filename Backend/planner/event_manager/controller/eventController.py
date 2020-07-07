@@ -23,3 +23,12 @@ def filterEventsByDate(request):
     events = eventService.filterEventsByDate(date)
     serializer = EventSerializer(events, many=True)
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_202_ACCEPTED)
+
+@api_view(['POST'])
+@permission_classes({IsAuthenticated})
+def getEventsbyRange(request):
+    startDate = json.loads(request.body)['startDate']
+    endDate = json.loads(request.body)['endDate']
+    events = eventService.getEventByRange(startDate,endDate)
+    serializer = EventSerializer(events,many=True)
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_202_ACCEPTED)

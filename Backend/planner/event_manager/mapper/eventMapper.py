@@ -1,6 +1,6 @@
 import uuid
 from .models.eventModel import Event
-
+from django.db.models import Q
 
 def addEvent(event_data):
     event = Event.objects.create(id=uuid.uuid1().hex)
@@ -14,3 +14,12 @@ def addEvent(event_data):
 def filterEventsByDate(date):
     events = Event.objects.filter(from_date__lte=date).filter(to_date__gte=date)
     return events
+
+def filterEventsByRange(startDate,endDate):
+    events = Event.objects.filter(
+        Q(to_date__gte=startDate,to_date__lte=endDate) |
+        Q(from_date__gte=startDate,to_date__lte=endDate) |
+        Q(from_date__gte=startDate,from_date__lte=endDate)
+    ).order_by('from_date')
+    return events
+    
