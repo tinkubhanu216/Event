@@ -19,10 +19,4 @@ export class AuthService {
   	const url = this.globals.url+'token/';
   	return this.http.post(url,this.credentials,{headers:headers});
   }
-  test(token){
-  	const headers = new HttpHeaders({'Content-type':'application/json',
-    'Authorization':'Bearer '+token});
-    const url = this.globals.url+'calender/test/'
-  	return this.http.get(url,{headers:headers});
-  }
 }

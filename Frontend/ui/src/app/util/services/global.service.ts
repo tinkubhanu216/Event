@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalService {
-  username :'kaushal'
-  password : '123456'
-  url :'http://localhost:8000/'
+  //enter your global user username and password
+  username : string = ''
+  password : string = ''
+  url : string = 'http://localhost:8000/'
   constructor() { }
 }
