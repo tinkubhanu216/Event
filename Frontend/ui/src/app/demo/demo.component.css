@@ -1,0 +1,55 @@
+/* @import "../node_modules/angular-calendar/css/angular-calendar.css"; */
+.cal-month-view .cal-days {
+    border: 0px solid;
+}
+
+/* h3 {
+    margin: 0 0 10px;
+  }
+  
+  pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+  }*/
+  .header{
+    float: auto;
+    margin:10px 50px 0px 20px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    font-family: Arial, Helvetica, sans-serif;
+   }
+   :host >>> .ui-card{
+   
+     /* width:500px; */
+     margin:5px 0px 3px 0px;
+     border-radius: 5px;
+     padding: 5px 20px 10px 20px;
+     background-color: #00b5ad;
+     color: white;
+    
+   }
+   
+   
+   .plusicon{
+     float: right;
+     margin:10px 10px 10px 20px;
+     font-size: 1.5rem;
+   }
+   .labels{
+     margin-left: 10px;
+     font-weight: 700;
+     font-family: Arial, Helvetica, sans-serif;
+   }
+   select.ng-touched.ng-invalid, input.ng-touched.ng-invalid{
+     border: 1px solid red;
+     box-shadow: 0 0 5px inset red;
+   }
+   .host >>> .ui-calendar{
+     margin:50px 50px 50px 50px;
+   }
+   /* :host >>> .ui-tabviewtag{
+     padding-left: 0px;
+     padding-right: 0px;
+     padding-top: 0px;
+   } */
+   

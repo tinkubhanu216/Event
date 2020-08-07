@@ -1,48 +1,57 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import 'flatpickr/dist/flatpickr.css';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { DemoComponent } from './demo/demo.component';
+
+import { CommonModule } from '@angular/common';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { DemoUtilsModule } from './demo-utils/demo-utils.module';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { FlatpickrModule } from 'angularx-flatpickr';
+
+import {AccordionModule} from 'primeng/accordion';
+import {MenuItem} from 'primeng/api';
+import {TabViewModule} from 'primeng/tabview';
+import {CardModule} from 'primeng/card';
+import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 
-import { MessageService } from 'primeng/api';
+import {MatExpansionModule} from '@angular/material/expansion';
 
-import { AppComponent } from './app.component';
-import { PlannerComponent } from './planner/planner.component';
-import { PlannerSidebarComponent } from './planner/planner-sidebar/planner-sidebar.component';
 
+import {FormsModule} from '@angular/forms';
+// import {CalendarModule} from 'primeng/calendar';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlannerComponent,
-    PlannerSidebarComponent,
+    DemoComponent,
   ],
   imports: [
-    CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FlatpickrModule.forRoot(),
-    NgbModalModule,
+    CommonModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    DemoUtilsModule,
+    AccordionModule,
+    TabViewModule,
+    CardModule,
+    DialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
     ButtonModule,
-    
+    MatExpansionModule
   ],
-  providers: [MessageService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

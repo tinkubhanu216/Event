@@ -1,0 +1,258 @@
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<style>
+  
+  .day-cell{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    left: 22px;
+    top: 10px;
+    text-align: center;
+    font-family: 'Roboto';
+    font-size: 22px;
+    padding-top: 7px;
+  }
+  .day-cell:hover{
+    background-color:#3895D3;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 25px;
+  }
+
+</style>
+
+
+
+<!-- <div class="alert alert-info">
+  For details on how to customise any of the templates, please see
+  <a
+    href="https://github.com/mattlewis92/angular-calendar#how-do-i-use-a-custom-template"
+    >this guide</a
+  >
+</div> --> 
+
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+  <div class="cal-cell-top" (click)="getEvent(day.date)" (dblclick)="showDialog()" style="padding-top: 10px;">
+    <!-- <span class="cal-day-badge" *ngIf="day.badgeTotal > 0"
+      >{{ day.badgeTotal }}</span
+    > -->
+    <div *ngIf="day.date==selectedDate"  class="day-cell" style="cursor: pointer;background-color: #00b5ad;" ><p style="position: relative;top: 13px;color: white;"
+      >{{ day.date | calendarDate:'monthViewDayNumber':locale }}</p>
+    </div>
+    <div *ngIf="day.date.getDate()==presentDate.getDate() && day.date.getMonth()==presentDate.getMonth() && day.date.getFullYear()==presentDate.getFullYear() && day.date!=selectedDate"  class="day-cell" style="cursor: pointer;background-color: #1261A0;" ><p style="position: relative;top: 13px;color: white;"
+      >{{ day.date | calendarDate:'monthViewDayNumber':locale }}</p>
+    </div>
+    <div *ngIf="!(day.date.getDate()==presentDate.getDate() && day.date.getMonth()==presentDate.getMonth() && day.date.getFullYear()==presentDate.getFullYear()) && day.date!=selectedDate">
+      <div *ngIf="checkDate(day)"  class="day-cell" style="cursor: pointer;" ><p style="position: relative;top: 13px;"
+        >{{ day.date | calendarDate:'monthViewDayNumber':locale }}</p>
+      </div>
+      <div *ngIf="!checkDate(day)"  class="day-cell" style="cursor: pointer;" ><p style="position: relative;top: 13px;color: grey;"
+        >{{ day.date | calendarDate:'monthViewDayNumber':locale  }}</p>
+      </div>
+    </div>
+    <!-- <div class="day-cell" style="cursor: pointer;" (click)="getDate(day.date)">
+      
+    </div> -->
+  </div>
+  <!-- <small style="margin: 5px;"
+    >There are {{ day.events.length }} events on this day</small
+  > -->
+</ng-template>
+
+
+  <div class="row">
+    <div class="col">
+      <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate" style="background-color: #e1e1e1;">
+      </mwl-demo-utils-calendar-header>
+      <div [ngSwitch]="view" style="">
+      <mwl-calendar-month-view
+        *ngSwitchCase="'month'"
+        [viewDate]="viewDate"
+        [events]="events"
+        [cellTemplate]="customCellTemplate"
+      >
+      </mwl-calendar-month-view>
+      
+      </div>
+    </div>
+    <div class="col"><br><br>
+      <!-- <p>Date:</p> -->
+      <div class="header">
+            <h4 style="font-weight: bold;">Your Events: {{selectedDate | calendarDate:'monthViewDayNumber'}} {{selectedDate | calendarDate:'monthViewTitle'}}</h4>
+            <div class="Events">          
+                <p-tabView>
+                  <p-tabPanel header="Day">
+                    <div *ngIf="day_events.length==0">No Events Found</div>
+                    <p-card  styleClass="ui-card" *ngFor="let eve of day_events;let indexOfelement=index;">
+                      <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'day')"></span>
+                        <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
+                        <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
+                     
+                    </p-card>
+                  </p-tabPanel> 
+                  <p-tabPanel header="Week">
+                    <div *ngIf="day_events.length==0">No Events Found</div>
+                    <p-card  styleClass="ui-card" *ngFor="let eve of week_events;let indexOfelement=index;">
+                      <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'week')"></span>
+                        <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
+                        <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
+                     
+                    </p-card>
+                    
+                  </p-tabPanel> 
+                  <p-tabPanel styleClass="ui-tabview" header="Month">
+                      <div *ngIf="day_events.length==0">No Events Found</div>
+                      <p-card  styleClass="ui-card" *ngFor="let eve of month_events;let indexOfelement=index;">
+                        <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'month')"></span>
+                          <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
+                          <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
+                       
+                      </p-card>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+            <div class="plusicon">
+                <i (click)="showDialog()"  class="pi pi-plus-circle"></i>
+            </div>
+          
+      </div>
+      
+      <p-dialog position="center" [(visible)]="display"  [style]="{width: '500px'}"  styleClass="mydialog"> 
+        <p-header>
+          Add your event
+        </p-header>
+        <!--  -->
+        <form [formGroup]=addEventForm  (ngSubmit)=onSubmit() >
+          <div class="p-grid" style="margin-top: 10px;">
+              <div class="ui-fluid p-formgrid p-grid" style="margin-top: 10px;" >
+                  <div class="p-field p-col-12 ">
+                    <label for="title" class="labels">Title:</label> 
+                    <input id="title" type="text" style="width: 98%;margin-left: 10px;  padding:7px 15px;"  placeholder="Title of the event" formControlName="title" pInputText> 
+                    <small class="text-danger" *ngIf="!addEventForm.get('title').valid && addEventForm.get('title').touched"></small>
+                  </div>  
+                    <div class="p-field p-col-12 ">
+                      <label for="from_date" class="labels">From Date:</label>
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="from_date"   styleClass="mycalender" position="center" placeholder="Start of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" placeholder="Start of the event" showSeconds="true" ></p-calendar> -->
+                        <input type="date" name="from_date" formControlName="from_date" [min]="startdate">
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('from_date').valid && addEventForm.get('from_date').touched"></small> -->
+                      </div>
+                      
+                    </div>
+                    <div class="p-field p-col-12 ">
+                      <label for="from_time" class="labels" >From Time:</label>
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="from_date"   styleClass="mycalender" position="center" placeholder="Start of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" placeholder="Start of the event" showSeconds="true" ></p-calendar> -->
+                        <input type="time" name="from_time" formControlName="from_time">
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('from_date').valid && addEventForm.get('from_date').touched"></small> -->
+                      </div>
+                      
+                    </div>   
+                    <div class="p-field p-col-12 ">
+                      <label for="to_date" class="labels">To Date:</label> 
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="to_date"   placeholder="End of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" showSeconds="true" ></p-calendar> -->
+                        <input type="date" name="to_date" formControlName="to_date">
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('to_date').valid && addEventForm.get('to_date').touched"></small> -->
+                      </div>
+                      
+                    </div>
+                    <div class="p-field p-col-12 ">
+                      <label for="to_time" class="labels">To Time:</label>
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="from_date"   styleClass="mycalender" position="center" placeholder="Start of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" placeholder="Start of the event" showSeconds="true" ></p-calendar> -->
+                        <input type="time" name="to_time" formControlName="to_time">
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('from_date').valid && addEventForm.get('from_date').touched"></small> -->
+                      </div>
+                      
+                    </div>  
+                  
+                  
+                  <div class="p-field p-col-12 ">
+                    <label for="description" class="labels">Description:</label> 
+                    <textarea id="description" type="text" rows="2" style="width: 98%;margin-left: 10px;   padding:5px 12px;"  placeholder="Description of the event" formControlName="description" pInputTextArea></textarea> 
+                    <small class="text-danger" *ngIf="!addEventForm.get('description').valid && addEventForm.get('description').touched"></small>
+                  </div>   
+                  
+              </div>
+              
+          </div>
+          <p-footer>
+          <button pButton type="submit" style="float: right;"  label="Add Event" class="ui-button-primary"></button>    
+          </p-footer>
+      </form>     
+        
+      </p-dialog>
+      <p-dialog position="center" [(visible)]="editdisplay"  [style]="{width: '500px'}"  styleClass="mydialog"> 
+        <p-header>
+          Edit your event
+        </p-header>
+        <!--  -->
+        <form [formGroup]=editEventForm  (ngSubmit)=oneditSubmit() >
+          <div class="p-grid" style="margin-top: 10px;">
+              <div class="ui-fluid p-formgrid p-grid" style="margin-top: 10px;" >
+                  <input type="hidden" name="id"  formControlName="id">
+                  <div class="p-field p-col-12 ">
+                    <label for="title" class="labels">Title:</label> 
+                    <input id="title" type="text" style="width: 98%;margin-left: 10px;  padding:7px 15px;"  placeholder="Title of the event" formControlName="title"  pInputText> 
+                    <small class="text-danger" *ngIf="!editEventForm.get('title').valid && editEventForm.get('title').touched"></small>
+                  </div>  
+                    <div class="p-field p-col-12 ">
+                      <label for="from_date" class="labels">From Date:</label>
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="from_date"   styleClass="mycalender" position="center" placeholder="Start of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" placeholder="Start of the event" showSeconds="true" ></p-calendar> -->
+                        <input type="date" name="from_date" formControlName="from_date" >
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('from_date').valid && addEventForm.get('from_date').touched"></small> -->
+                      </div>
+                      
+                    </div>
+                    <div class="p-field p-col-12 ">
+                      <label for="from_time" class="labels" >From Time:</label>
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="from_date"   styleClass="mycalender" position="center" placeholder="Start of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" placeholder="Start of the event" showSeconds="true" ></p-calendar> -->
+                        <input type="time" name="from_time" formControlName="from_time" >
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('from_date').valid && addEventForm.get('from_date').touched"></small> -->
+                      </div>
+                      
+                    </div>   
+                    <div class="p-field p-col-12 ">
+                      <label for="to_date" class="labels">To Date:</label> 
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="to_date"   placeholder="End of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" showSeconds="true" ></p-calendar> -->
+                        <input type="date" name="to_date" formControlName="to_date" >
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('to_date').valid && addEventForm.get('to_date').touched"></small> -->
+                      </div>
+                      
+                    </div>
+                    <div class="p-field p-col-12 ">
+                      <label for="to_time" class="labels">To Time:</label>
+                      <div style="margin-left: 10px;">
+                        <!-- <p-calendar formControlName="from_date"   styleClass="mycalender" position="center" placeholder="Start of the event" dateFormat="yy.mm.dd"  [showTime]="true" hourFormat="24" placeholder="Start of the event" showSeconds="true" ></p-calendar> -->
+                        <input type="time" name="to_time" formControlName="to_time" >
+                        <!-- <small class="text-danger" *ngIf="!addEventForm.get('from_date').valid && addEventForm.get('from_date').touched"></small> -->
+                      </div>
+                      
+                    </div>  
+                  
+                  
+                  <div class="p-field p-col-12 ">
+                    <label for="description" class="labels">Description:</label> 
+                    <textarea id="description" rows="2" style="width: 98%;margin-left: 10px;   padding:5px 12px;"  placeholder="Description of the event" formControlName="description" pInputTextArea></textarea> 
+                    <!-- <small class="text-danger" *ngIf="!editEventForm.get('description').valid && editEventForm.get('description').touched"></small> -->
+                  </div>   
+                  
+              </div>
+              
+          </div>
+          <p-footer>
+            <button pButton style="float: left;"  label="Delete Event" class="ui-button-primary" (click)="delEvent()"></button>
+          <button pButton type="submit" style="float: right;"  label="Edit Event" class="ui-button-primary"></button>    
+          </p-footer>
+      </form>     
+        
+      </p-dialog></div>
+  </div>

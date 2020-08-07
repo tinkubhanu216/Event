@@ -10,5 +10,7 @@ class EventSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'from_date',
-            'to_date'
+            'from_time',
+            'to_date',
+            'to_time'
         )
