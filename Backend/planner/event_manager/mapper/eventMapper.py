@@ -43,9 +43,9 @@ def filterEventsByRange(startDate,endDate):
 def filterEventsByMonth(month,year):
     print(month)
     print(year)
-    events = Event.objects.filter(from_date__year__gte=year,
-                              from_date__month__gte=month,
-                              to_date__year__lte=year,
-                              to_date__month__lte=month)
+    events = Event.objects.filter(
+        Q(from_date__year__lte=year,from_date__month__lte=month) &
+        Q(to_date__year__gte=year,to_date__month__gte=month)
+        )
     return events
     
