@@ -176,6 +176,9 @@ export class DemoComponent implements OnInit {
   }
 
   getEvent(day){
+    this.day_events=[];
+    this.week_events=[];
+    this.month_events=[];
     this.selectedDate=day;
     const day_num:any=day.getDate();
     const mon_num:any=day.getMonth()+1;
@@ -243,5 +246,21 @@ export class DemoComponent implements OnInit {
     }else{
       return false;
     } 
+  }
+  getBg(day){
+    console.log(this.month_events);
+    for (var eve of this.month_events){
+      const st=new Date(eve.from_date);
+      const ed=new Date(eve.to_date);
+      if(day>=st && day<=ed){
+        return "#e4f0f6";
+      }
+    }
+    return "none";
+    // if(day.date.getMonth()==this.viewDate.getMonth()){
+    //   return "#e4f0f6";
+    // }else{
+    //   return "none";
+    // } 
   }
 }

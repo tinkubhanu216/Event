@@ -36,10 +36,10 @@
 </div> --> 
 
 <ng-template #customCellTemplate let-day="day" let-locale="locale">
-  <div class="cal-cell-top" (click)="getEvent(day.date)" (dblclick)="showDialog()" style="padding-top: 10px;">
-    <!-- <span class="cal-day-badge" *ngIf="day.badgeTotal > 0"
+  <div class="cal-cell-top" (click)="getEvent(day.date)" (dblclick)="showDialog()" style="padding-top: 10px;" [ngStyle]="{backgroundColor: getBg(day.date)}">
+    <span class="cal-day-badge" *ngIf="day.badgeTotal > 0"
       >{{ day.badgeTotal }}</span
-    > -->
+    >
     <div *ngIf="day.date==selectedDate"  class="day-cell" style="cursor: pointer;background-color: #00b5ad;" ><p style="position: relative;top: 13px;color: white;"
       >{{ day.date | calendarDate:'monthViewDayNumber':locale }}</p>
     </div>
@@ -83,41 +83,47 @@
       <!-- <p>Date:</p> -->
       <div class="header">
             <h4 style="font-weight: bold;">Your Events: {{selectedDate | calendarDate:'monthViewDayNumber'}} {{selectedDate | calendarDate:'monthViewTitle'}}</h4>
+            <div class="plusicon">
+              <i (click)="showDialog()"  class="pi pi-plus-circle"></i>
+          </div>
+          
             <div class="Events">          
-                <p-tabView>
-                  <p-tabPanel header="Day">
+              <p-tabView>
+                <p-tabPanel header="Day">
+                  <p-scrollPanel [style]="{width: '100%', height: '550px'}">
                     <div *ngIf="day_events.length==0">No Events Found</div>
                     <p-card  styleClass="ui-card" *ngFor="let eve of day_events;let indexOfelement=index;">
                       <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'day')"></span>
                         <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
                         <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
-                     
                     </p-card>
-                  </p-tabPanel> 
-                  <p-tabPanel header="Week">
+                  </p-scrollPanel>
+                </p-tabPanel> 
+                <p-tabPanel header="Week">
+                  <p-scrollPanel [style]="{width: '100%', height: '550px'}">
                     <div *ngIf="day_events.length==0">No Events Found</div>
                     <p-card  styleClass="ui-card" *ngFor="let eve of week_events;let indexOfelement=index;">
                       <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'week')"></span>
                         <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
                         <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
-                     
                     </p-card>
-                    
-                  </p-tabPanel> 
-                  <p-tabPanel styleClass="ui-tabview" header="Month">
-                      <div *ngIf="day_events.length==0">No Events Found</div>
-                      <p-card  styleClass="ui-card" *ngFor="let eve of month_events;let indexOfelement=index;">
-                        <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'month')"></span>
-                          <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
-                          <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
-                       
-                      </p-card>
-                    </p-tabPanel>
-                </p-tabView>
+                  </p-scrollPanel>
+                </p-tabPanel> 
+                <p-tabPanel styleClass="ui-tabview" header="Month">
+                  <p-scrollPanel [style]="{width: '100%', height: '550px'}">
+                    <div *ngIf="day_events.length==0">No Events Found</div>
+                    <p-card  styleClass="ui-card" *ngFor="let eve of month_events;let indexOfelement=index;">
+                      <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'month')"></span>
+                        <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
+                        <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
+                    </p-card>
+                  </p-scrollPanel>
+                  </p-tabPanel>
+              </p-tabView>
             </div>
-            <div class="plusicon">
-                <i (click)="showDialog()"  class="pi pi-plus-circle"></i>
-            </div>
+          
+            
+            
           
       </div>
       

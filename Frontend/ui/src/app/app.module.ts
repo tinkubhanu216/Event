@@ -16,6 +16,7 @@ import {TabViewModule} from 'primeng/tabview';
 import {CardModule} from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 import {MatExpansionModule} from '@angular/material/expansion';
 
@@ -49,7 +50,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     BrowserAnimationsModule,
     ButtonModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ScrollPanelModule
   ],
   providers: [],
   bootstrap: [AppComponent]
