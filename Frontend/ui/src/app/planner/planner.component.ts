@@ -180,12 +180,12 @@ export class PlannerComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.authService.getToken().subscribe(res=>{
-      console.log(res)
-      this.authService.test(res['token']).subscribe(res=>{
-        console.log(res)
-      })
-    })
+    // this.authService.getToken().subscribe(res=>{
+    //   console.log(res)
+    //   this.authService.test(res['token']).subscribe(res=>{
+    //     console.log(res)
+    //   })
+    // })
   }
 
 }

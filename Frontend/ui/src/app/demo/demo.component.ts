@@ -26,8 +26,8 @@ import {CookieService} from '../util/services/cookie.service';
 export class DemoComponent implements OnInit {
   title: string;
   description: string;
-  from_date: string;
-  to_date: string;
+  from_date: Date;
+  to_date: Date;
   display = false;
   editdisplay=false;
   addEventForm: FormGroup;
@@ -80,11 +80,11 @@ export class DemoComponent implements OnInit {
       to_date: new FormControl('', Validators.required),
       to_time: new FormControl('', Validators.required),
     });
-    this.authService.getToken().subscribe(res => {
+    // this.authService.getToken().subscribe(res => {
   
-      console.log(res);
-      this.cookieService.setItem('jwt_token', res['token']);
-    });
+    //   console.log(res);
+    //   this.cookieService.setItem('jwt_token', res['token']);
+    // });
     const today= new Date();
     this.getEvent(today);
     
@@ -147,30 +147,33 @@ export class DemoComponent implements OnInit {
   onSubmit(){
     const data = this.addEventForm.value;
     // console.log(data);
-    this.authService.addEvent(data).subscribe(res => {
-      console.log(res);
-    });
-    console.log(this.addEventForm.value);
+    // this.authService.addEvent(data).subscribe(res => {
+    //   console.log(res);
+    // });
+    this.authService.addEvent(data);
+    // console.log(this.addEventForm.value);
     this.display = false;
   }
   oneditSubmit(){
     console.log("on edit submit")
     const data = this.editEventForm.value;
     console.log(data);
-    this.authService.editEvent(data).subscribe(res => {
-      console.log(res);
-    });
+    // this.authService.editEvent(data).subscribe(res => {
+    //   console.log(res);
+    // });
     // console.log(this.addEventForm.value);
+    this.authService.editEvent(data);
     this.editdisplay = false;
     this.getEvent(this.selectedDate);
   }
   delEvent(){
     const data = this.editEventForm.value;
     console.log(data);
-    this.authService.delEvent(data).subscribe(res => {
-      console.log(res);
-    });
+    // this.authService.delEvent(data).subscribe(res => {
+    //   console.log(res);
+    // });
     // console.log(this.addEventForm.value);
+    this.authService.delEvent(data);
     this.editdisplay = false;
     this.getEvent(this.selectedDate);
   }
@@ -185,17 +188,19 @@ export class DemoComponent implements OnInit {
     const year_num:any=day.getFullYear();
     const pre_date:string=year_num+'-'+mon_num+'-'+day_num;
     const data_date = {'date': pre_date};
-    this.authService.getEventsByDate(data_date).subscribe(res => {
-      // console.log(res);
-      this.day_events=res;
-      // console.log(this.day_events)
-    });
+    // this.authService.getEventsByDate(data_date).subscribe(res => {
+    //   // console.log(res);
+    //   this.day_events=res;
+    //   // console.log(this.day_events)
+    // });
+    this.day_events=this.authService.getEventsByDate(day);
     const data_month = {'month': mon_num,'year':year_num};
-    this.authService.getEventsByMonth(data_month).subscribe(res => {
-      // console.log(res);
-      this.month_events=res;
-      // console.log(this.day_events)
-    });
+    // this.authService.getEventsByMonth(data_month).subscribe(res => {
+    //   // console.log(res);
+    //   this.month_events=res;
+    //   // console.log(this.day_events)
+    // });
+    this.month_events=this.authService.getEventsByMonth(data_month);
     let startDay = new Date();
     let endDay = new Date();
     startDay.setDate(day.getDate()-day.getDay());
@@ -212,11 +217,12 @@ export class DemoComponent implements OnInit {
 
 
     const data_week = {'start':pre_date_start ,'end':pre_date_end};
-    this.authService.getEventsbyRange(data_week).subscribe(res => {
-      // console.log(res);
-      this.week_events=res;
-      // console.log(this.day_events)
-    });
+    this.week_events=this.authService.getEventsbyRange(data_week);
+    // this.authService.getEventsbyRange(data_week).subscribe(res => {
+    //   // console.log(res);
+    //   this.week_events=res;
+    //   // console.log(this.day_events)
+    // });
     console.log('events fetched');
     // tslint:disable-next-line: no-unused-expression
     console.log("day",this.day_events);
@@ -248,14 +254,14 @@ export class DemoComponent implements OnInit {
     } 
   }
   getBg(day){
-    console.log(this.month_events);
-    for (var eve of this.month_events){
-      const st=new Date(eve.from_date);
-      const ed=new Date(eve.to_date);
-      if(day>=st && day<=ed){
-        return "#e4f0f6";
-      }
-    }
+    // console.log(this.month_events);
+    // for (var eve of this.month_events){
+    //   const st=new Date(eve.from_date);
+    //   const ed=new Date(eve.to_date);
+    //   if(day>=st && day<=ed){
+    //     return "#e4f0f6";
+    //   }
+    // }
     return "none";
     // if(day.date.getMonth()==this.viewDate.getMonth()){
     //   return "#e4f0f6";
