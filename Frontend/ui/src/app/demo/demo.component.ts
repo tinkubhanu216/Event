@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../util/services/auth.service';
 import {CookieService} from '../util/services/cookie.service';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 
 
@@ -146,6 +147,10 @@ export class DemoComponent implements OnInit {
   }
   onSubmit(){
     const data = this.addEventForm.value;
+    let temp_date=new Date(data.from_date);
+    data.from_date=new Date(temp_date.getFullYear(),temp_date.getMonth(),temp_date.getDate(),0,0,0,0);
+    temp_date=new Date(data.to_date);
+    data.to_date=new Date(temp_date.getFullYear(),temp_date.getMonth(),temp_date.getDate(),0,0,0,0);
     // console.log(data);
     // this.authService.addEvent(data).subscribe(res => {
     //   console.log(res);
@@ -179,6 +184,7 @@ export class DemoComponent implements OnInit {
   }
 
   getEvent(day){
+    console.log(day.getTime());
     this.day_events=[];
     this.week_events=[];
     this.month_events=[];

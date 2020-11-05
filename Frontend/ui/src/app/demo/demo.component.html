@@ -94,8 +94,8 @@
                     <div *ngIf="day_events.length==0">No Events Found</div>
                     <p-card  styleClass="ui-card" *ngFor="let eve of day_events;let indexOfelement=index;">
                       <span class="glyphicon glyphicon-pencil" style="float: right; position: relative;top: -9px;right: -23px;"  (click)="showEditDialog(indexOfelement,'day')"></span>
-                        <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date}} {{eve.from_time}} </span></p>
-                        <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date}} {{eve.to_time}}</span></p>
+                        <p style="padding-top:10px">{{eve.title}} <span style="float: right;">{{eve.from_date|date}} {{eve.from_time}} </span></p>
+                        <p style="font-weight: 500;">{{eve.description}} <span style="float: right;">{{eve.to_date|date}} {{eve.to_time}}</span></p>
                     </p-card>
                   </p-scrollPanel>
                 </p-tabPanel> 
